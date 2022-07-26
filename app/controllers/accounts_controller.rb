@@ -8,13 +8,13 @@ class AccountsController < ApplicationController
     if params[:friend].present?
       @friends = Account.search(params[:friend])
       @friends = current_account.except_current_account(@friends)
-      if @friends
+      if @friends.count > 0 
         respond_to do |format|
           format.js { render partial: 'accounts/friend_result' }
         end
       else
         respond_to do |format|
-          flash.now[:alert] = "Couldn't find user"
+          flash.now[:alert] = "No Results Found"
           format.js { render partial: 'accounts/friend_result' }
         end
       end    
@@ -28,6 +28,7 @@ class AccountsController < ApplicationController
 
   def show
     @acc = Account.find(params[:id])
+    @posts = @acc.posts
   end
 
   def my_account

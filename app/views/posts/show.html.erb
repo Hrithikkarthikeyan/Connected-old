@@ -1,0 +1,24 @@
+
+<div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-8 mt-4">
+        <div class="card text-center shadow mb-5 bg-white rounded">
+          <div class="card-header font-italic">
+          <div class="bg-white p-2">
+                  <div class="d-flex flex-row user-info"><img class="rounded-circle" src="<%= asset_path('')%>" width="40">
+                      <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name"><%= link_to @post.account.full_name, account_path(@post.account) %></span><span class="date text-black-50"><%= time_ago_in_words(@post.created_at) %></span></div>
+                  </div>
+                </div>
+          </div>
+         <% if @post.image.attached? %>
+         <p>
+          <%= image_tag @post.image %>
+         </p>
+         <% end %>
+          <div class="card-body">
+            <p class="card-text"><%= truncate(@post.description, length: 100) %></p>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

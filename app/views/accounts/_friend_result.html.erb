@@ -1,7 +1,8 @@
+
 <div class="results-block">
   <%= render 'layouts/messages' %>
 </div>
-
+<% if @friends.count > 0 %>
 <% if @friends %>
   <div class="card card-header results-block">
   <table class="col-md-12">
@@ -28,3 +29,4 @@
   </table>
   </div>
 <% end %> 
+<% end %>
