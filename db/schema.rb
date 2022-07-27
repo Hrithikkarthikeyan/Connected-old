@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_26_062704) do
+ActiveRecord::Schema.define(version: 2022_07_27_025215) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -59,6 +59,25 @@ ActiveRecord::Schema.define(version: 2022_07_26_062704) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "post_id"
+    t.integer "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_comments_on_account_id"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+  end
+
+  create_table "forign_key_in_likes", force: :cascade do |t|
+    t.integer "account_id"
+    t.integer "post_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_forign_key_in_likes_on_account_id"
+    t.index ["post_id"], name: "index_forign_key_in_likes_on_post_id"
+  end
+
   create_table "friendships", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "friend_id"
@@ -69,10 +88,12 @@ ActiveRecord::Schema.define(version: 2022_07_26_062704) do
   end
 
   create_table "likes", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.integer "account_id"
     t.integer "post_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_likes_on_account_id"
+    t.index ["post_id"], name: "index_likes_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -84,6 +105,8 @@ ActiveRecord::Schema.define(version: 2022_07_26_062704) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "accounts"
+  add_foreign_key "comments", "posts"
   add_foreign_key "friendships", "accounts"
   add_foreign_key "friendships", "accounts", column: "friend_id"
 end

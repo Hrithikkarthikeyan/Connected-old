@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <%= link_to 'LinkedIn', root_path, class: 'navbar-brand' %>
+        <%= link_to 'Connected', root_path, class: 'navbar-brand' %>
         <% if current_account %> 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item <%= 'active' if request.path == my_account_path %>">
+                    <li class="nav-item <%= 'active' if request.path == account_path(current_account) %>">
                         <%= link_to 'My Account', account_path(current_account), class: 'nav-link' %>
                     </li>
                     <li class="nav-item <%= 'active' if request.path == my_friends_path %>">
@@ -22,7 +22,7 @@
                         <%= link_to edit_account_registration_path, class: 'dropdown-item' do %>
                             <%= fa_icon 'edit' %> Edit profile
                         <% end %>
-                        <a class="dropdown-item" href="#">Action</a>
+                        <%= link_to 'New Post', new_post_path, class: 'dropdown-item' %>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                         </div>

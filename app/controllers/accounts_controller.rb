@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController
-
+  before_action :authenticate_account!
+   
   def my_friends
     @friends = current_account.friends
   end
