@@ -20,11 +20,13 @@ class LikesController < ApplicationController
   def create
     @like = current_account.likes.build(like_params)
     @post = @like.post
+    
     if @like.save
       respond_to :js
     else 
       flash[:alert] = "something went wrong sdf"
     end
+    
   end 
 
   def destroy
@@ -39,6 +41,6 @@ class LikesController < ApplicationController
   
   private
   def like_params
-    params.permit :post_id, :account_id
+    params.permit :post_id
   end
 end

@@ -1,0 +1,6 @@
+document.querySelector('#like-icon-post-<%= @post.id.to_s%>').
+  innerHTML = '<%= link_to "Liked", like_path(@like), method: :delete, remote: true, class: "like p-4 cursor active fa fa-thumbs-o-up"%>';
+document.querySelector('#like-text-post-<%= @post.id.to_s %>').
+  innerHTML = '<%= j render "posts/like_text", {likes: @post.likes} %>';
+
+console.log("create like success");

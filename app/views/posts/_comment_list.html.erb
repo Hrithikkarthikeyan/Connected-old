@@ -1,0 +1,10 @@
+<% post.comments.each do |comment|%>
+  <div class="mb-2 ml-3 text-left">
+    <% if comment.account == current_account%>
+      <%= link_to "Delete", comment_path(comment),
+          method: :delete, remote: true, class: "fa-solid fa-x delete-comment mr-3"%>
+    <% end %>
+    <span> <strong> <%= comment.account.full_name%> </strong> </span>
+    <span> <%= comment.content %></span>
+  </div>
+<% end %>

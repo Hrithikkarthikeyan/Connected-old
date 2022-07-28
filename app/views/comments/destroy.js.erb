@@ -1,0 +1,4 @@
+document.querySelector('#comment-post-<%= @post.id.to_s%>').
+  innerHTML = '<%= j render "posts/comment_list", {post: @post} %>' ;
+
+console.log("delete comment success"); 
