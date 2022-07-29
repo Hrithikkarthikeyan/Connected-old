@@ -32,14 +32,15 @@ body{background: #eee}.date{font-size: 11px}.comment-text{font-size: 12px}.fs-12
 .like{
  
   border: none; 
-  border-radius: 5px; 
+  border-radius: 10px; 
   color: #333; /* Dark grey */ 
-  padding: 15px 32px;
   margin-left: 8%;
+  width: 130px;
+  height: 50px;
 }
 
 .active{
-  background-color: #336cfb;
+  background-color: #4978f0;
 }
 
 .delete-button-in-acc{
@@ -50,4 +51,9 @@ body{background: #eee}.date{font-size: 11px}.comment-text{font-size: 12px}.fs-12
   
   float: right;
   margin: 5px 0 0 10px;
+}
+
+.profile_pic{
+  width: 50px;
+  height: 40px;
 }

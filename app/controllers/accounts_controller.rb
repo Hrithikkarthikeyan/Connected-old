@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
    
   def my_friends
     @friends = current_account.friends 
-    @left_account = Account.where(id: Friendship.where(friend_id: current_account).select(:account_id))
+    # @left_account = Account.where(id: Friendship.where(friend_id: current_account).select(:account_id))
   end
 
   def search

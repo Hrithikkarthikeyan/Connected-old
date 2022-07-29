@@ -1,61 +1,13 @@
 
 <div class="container-fluid col-8">
   <% @posts.each do |post| %>
-    <div class="row justify-content-md-center">
-      <div class="col-8 mt-4">
-        <div class="card text-center shadow mb-5 bg-white rounded">
-          <div class="card-header font-italic">
-          <div class="bg-white p-2">
-                  <div class="d-flex flex-row user-info"><img class="rounded-circle" src="<%= asset_path('https://i.imgur.com/RpzrMR2.jpg')%>" width="40">
-                      <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name"><%= link_to post.account.full_name, account_path(post.account) %></span><span class="date text-black-50"><%= time_ago_in_words(post.created_at) %></span></div>
-                      
-                  </div>
-                  
-                </div>
-          </div>          
-         <% if post.image.attached? %>
-         <div class="mt-5">
-          <%= image_tag post.image.variant(resize: "400x400") %>
-         </div>
-         <% end %>
-          <div class="card-body text-left">
-            <p class="card-text"><%= truncate(post.description, length: 100) %></p>
-            </div>
-
-            <div class="d-flex justify-content-center row ">
-              <div class="col-md-12">
-                  <div class="d-flex flex-column comment-section">
-                      <div class="card bg-white">
-                          <div class="d-flex flex-row fs-12">
-                              <!-- <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"><span class="ml-1"  >Like</span></i></div> -->
-                              <div id="like-icon-post-<%= post.id.to_s%>">
-                              <%= render "like_icon", {is_liked: post.is_liked(current_account), post: post}%>
-                              </div>
-                              <div class="like p-3 cursor"><i class="fa fa-commenting-o"><span class="ml-1">Comment</span></i></div>
-                              <div class="like p-3 cursor"><i class="fa fa-share"><span class="ml-1">Share</span></i></div>
-                          </div>
-                          <div id="like-text-post-<%= post.id.to_s %>">
-                            <%= render "like_text", {likes: post.likes}%>
-                          </div>
-                      </div>
-                      
-                      <div class="container">
-                      <div class="bg-light p-2">
-                        <div class="row actions" id="comment-form-post-<%= post.id.to_s%>">
-                          <%= render "comment_form", {post: post}%>
-                        </div>
-                      </div>
-                      </div>
-                      <div id="comment-post-<%= post.id.to_s%>">
-                        <%= render "comment_list", {post: post}%>
-                      </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-        </div>
-
-      </div>
-    
+  <% if current_account == post.account || Friendship.where(account_id: current_account.id, friend_id: post.account_id).present? || Friendship.where(account_id: post.account_id, friend_id: current_account.id).present? || current_account.company?%>
+    <%= render 'list_posts', {post: post}%>
+    <% end %>
+  <% end %>
+  <% @posts.each do |post| %>
+  <% if  Account.find_by(id: post.account_id).company? && !(Friendship.where(account_id: current_account.id, friend_id: post.account_id).present?)%>
+    <%= render 'list_posts', {post: post}%>
+    <% end %>
   <% end %>
 </div>

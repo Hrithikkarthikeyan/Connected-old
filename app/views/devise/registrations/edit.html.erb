@@ -7,6 +7,12 @@
   <%= bootstrap_devise_error_messages! %>
 
   <div class="form-group">
+  <label class="col-sm-4 col-form-label">Profile Pic:
+  <% if current_account.image.present? %><br />Current: <%= image_tag(current_account.image) %><% end %>
+  </label>
+  <div class="col-sm-8"><%= f.file_field :image, class: "form-control" %></div>
+  </div>
+  <div class="form-group">
     <%= f.label :email %>
     <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control' %>
   </div>

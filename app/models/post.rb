@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   belongs_to :account
   has_one_attached :image, :dependent => :destroy
   validates :description, presence: true, length: {minimum: 2, maximum: 100}
-  validates :image, presence: true, blob: { content_type: ['image/png', 'image/jpg', 'image/jpeg'], size_range: 1..5.megabytes }
+  validates :image, presence: false, blob: { content_type: ['image/png', 'image/jpg', 'image/jpeg'], size_range: 1..5.megabytes }
 
   def is_liked account
     Like.find_by(account_id: account.id, post_id: id)

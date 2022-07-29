@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     @post.image.attach(params[:post][:image])
     if @post.save
       flash[:notice] = "Post created successfully"
-      redirect_to @post
+      redirect_to account_path(current_account) 
     else
       render 'new'
     end
@@ -16,7 +16,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @likes = @post.likes.include(:account)
+    @likes = @post.likes.includes(:account)
     @comment = Comment.new
     @is_liked = @post.is_liked(current_account)
   end
@@ -28,6 +28,6 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to @post
+    redirect_to account_path(current_account)
 end
 end
