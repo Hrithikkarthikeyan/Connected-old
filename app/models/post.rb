@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
-  has_many :likes, -> {order(:created_at => :desc)}
-  has_many :comments, -> {order(:created_at => :desc)}
+  has_many :likes, -> {order(:created_at => :desc)}, dependent: :destroy
+  has_many :comments, -> {order(:created_at => :desc)}, dependent: :destroy
   belongs_to :account
   has_one_attached :image, :dependent => :destroy
   validates :description, presence: true, length: {minimum: 2, maximum: 100}

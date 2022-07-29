@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   get 'my_friends', to: 'accounts#my_friends'
   get 'search_friends', to: 'accounts#search'
   
-  
   resources :friendships, only: [:create, :destroy]
   resources :accounts, only: [:show]
   resources :posts, only: [:new, :create, :show, :index, :destroy]
   resources :likes, shallow: true
   resources :comments, only: [:index, :create, :destroy], shallow: true
+  resources :requests
 end

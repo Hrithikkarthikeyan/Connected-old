@@ -1,8 +1,9 @@
 class AccountsController < ApplicationController
-  before_action :authenticate_account!
+  before_action :authenticate_account! 
    
   def my_friends
-    @friends = current_account.friends
+    @friends = current_account.friends 
+    @left_account = Account.where(id: Friendship.where(friend_id: current_account).select(:account_id))
   end
 
   def search
@@ -30,9 +31,11 @@ class AccountsController < ApplicationController
   def show
     @acc = Account.find(params[:id])
     @posts = @acc.posts
+    @friend = Friendship.find_by(account_id: @acc.id)
   end
 
   def my_account
     
   end
+  
 end

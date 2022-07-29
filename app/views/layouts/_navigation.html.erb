@@ -24,7 +24,7 @@
                         <% end %>
                         <%= link_to 'New Post', new_post_path, class: 'dropdown-item' %>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <%= link_to 'My Requests', requests_path, class: 'dropdown-item' %>
                         </div>
                     </li>
                     
@@ -35,7 +35,7 @@
                     </li>
                     <li class='nav-item'>
                         <%= link_to("Logout", destroy_account_session_path,
-                            class: "btn btn-danger logout-button", method: :delete)%>
+                            class: "btn btn-danger logout-button", method: :delete,  data: {confirm: 'Are you sure?'})%>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">

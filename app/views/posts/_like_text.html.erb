@@ -7,7 +7,7 @@
     </strong>and<strong>
     <%= + like.account.full_name%></strong> like this
   <% elsif index > 1%>
-    </strong><%= "and" +(likes.size-index).to_s + "others" %> like this
+    </strong><%= "and " +(likes.size-index).to_s + " others" %> like this
     <%break%>
   <% elsif index==likes.size-2 || index == 1%>
     <%= like.account.full_name%>

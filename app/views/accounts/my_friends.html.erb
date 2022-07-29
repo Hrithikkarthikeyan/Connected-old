@@ -20,6 +20,6 @@
 
 </div>
 
-<% if @friends.count > 0 %>
+<% if @friends.count + @left_account.count > 0 %>
   <%= render 'friends/list' %>
 <% end %> 

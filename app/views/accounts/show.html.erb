@@ -13,7 +13,8 @@
 </tbody>
 </table>
 </div>
-<div class="container-fluid col-8">
+<div class="container-fluid col-8"> 
+<% if @acc == current_account || Friendship.where(account_id: current_account.id, friend_id: @acc.id).present? || Friendship.where(account_id: @acc.id, friend_id: current_account.id).present?%>
   <% @posts.each do |post| %>
     <div class="row justify-content-md-center">
       <div class="col-8 mt-4">
@@ -22,7 +23,9 @@
           <div class="bg-white p-2">
                   <div class="d-flex flex-row user-info"><img class="rounded-circle" src="<%= asset_path('')%>" width="40">
                       <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name"><%= link_to post.account.full_name, account_path(post.account) %></span><span class="date text-black-50"><%= time_ago_in_words(post.created_at) %></span></div>
+                      <% if Account.find(post.account_id) == current_account%>
                     <div><%= link_to "Delete", post_path(post), class: "btn btn-outline-danger float-right delete-button-in-acc", method: :delete, data: {confirm: "Are you sure?"} %></div>
+                      <% end %>
                   </div>
                 </div>
           </div>
@@ -51,9 +54,15 @@
                             <%= render "posts/like_text", {likes: post.likes}%>
                           </div>
                       </div>
+                      <div class="container">
                       <div class="bg-light p-2">
-                          <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"><textarea class="form-control ml-1 shadow-none textarea"></textarea></div>
-                          <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="button">Post comment</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
+                        <div class="row actions" id="comment-form-post-<%= post.id.to_s%>">
+                          <%= render "posts/comment_form", {post: post}%>
+                        </div>
+                      </div>
+                      </div>
+                      <div id="comment-post-<%= post.id.to_s%>">
+                        <%= render "posts/comment_list", {post: post}%>
                       </div>
                   </div>
               </div>
@@ -62,6 +71,7 @@
       </div>
     </div>
   <% end %>
+<% end %>
 </div>
 </div>
 

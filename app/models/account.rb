@@ -1,9 +1,10 @@
 class Account < ApplicationRecord
   has_many :friendships
   has_many :friends, through: :friendships
-  has_many :posts
-  has_many :likes
-  has_many :comments
+  has_many :posts, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :requests, dependent: :destroy
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -20,6 +21,10 @@ class Account < ApplicationRecord
     return nil unless to_send_back
     to_send_back
   end
+
+  # def friends
+  #   Friendship.where(account_one_id: id).or.where(account_two_id: id).pluck(:account_one_id, :account_two_id).flatten.uniq
+  # end
 
   def self.first_name_matches(param)
     matches('first_name',param)
@@ -44,4 +49,9 @@ class Account < ApplicationRecord
     !self.friends.where(id: id_of_friends).exists?
   end
 
+  def has_requested?(friend_id)
+    Request.where(account_id: current_account.id, friend_id: friend_id).present?
+  end
+
+  
 end
