@@ -8,7 +8,10 @@ class FriendshipsController < ApplicationController
       request.save
     end
     Friendship.create(account_id: friend.id, friend_id: account.id)
-    Friendship.create(account_id: account.id, friend_id: friend.id)
+    if !account.company?
+      Friendship.create(account_id: account.id, friend_id: friend.id)
+    end
+    flash[:notice] = "Connected Successfully"
     # if friendship.save
     #   flash[:notice] = "Connected successfully"
     # else
@@ -26,6 +29,11 @@ class FriendshipsController < ApplicationController
   
   def destroy
     friendship = current_account.friendships.where(friend_id: params[:id]).first
+    acc = Account.find_by(params[:id])
+    if !acc.company?
+      friendship2 = Friendship.find_by(account_id: params[:id], friend_id: current_account)
+      friendship2.destroy
+    end
     # Request.find_by(account_id: current_account.id,friend_id: params[:id]).destroy
     friendship.destroy
     flash[:notice] = "Stopped, following"

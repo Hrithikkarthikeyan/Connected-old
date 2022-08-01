@@ -1,0 +1,6 @@
+<h2><%= link_to @account1.first_name, account_path(@account1)%>'s Connections </h2>
+
+<% if @friends.count > 0 %>
+  <%= render 'accounts/view_connection' %>
+<% end %> 
+

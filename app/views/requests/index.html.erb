@@ -1,5 +1,15 @@
-<h1>My Requests</h1>
+<% c = 0 %>
+ <% @requests.each do |request| %>
+    <% if current_account == Account.find(request.friend_id) && request.status == 0 %>
+      <% c = c+1 %>
+    <% end %>
+  <% end %>
 
+
+<% if c == 0 %>
+<h1> You have no Connection request </h1>
+<% else %>
+<h1>My Requests</h1>
 <div class="row">
   <div class="col-9">  
     <table class="table table-bordered table-hover">
@@ -27,3 +37,4 @@
     </table>
   </div>
 </div>   
+<% end %>

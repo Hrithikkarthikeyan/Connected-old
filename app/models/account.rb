@@ -5,6 +5,7 @@ class Account < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :requests, dependent: :destroy
+  has_many :views, dependent: :destroy
 
   has_one_attached :image, :dependent => :destroy
   validates :image, presence: false, blob: { content_type: ['image/png', 'image/jpg', 'image/jpeg'], size_range: 1..5.megabytes }
@@ -13,6 +14,8 @@ class Account < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  
 
   def full_name
     return "#{first_name} #{last_name}" if first_name || last_name

@@ -23,6 +23,7 @@
                             <%= fa_icon 'edit' %> Edit profile
                         <% end %>
                         <%= link_to 'New Post', new_post_path, class: 'dropdown-item' %>
+                        <%= link_to "Viewers", viewed_my_account_path(account_id: current_account), class: 'dropdown-item'%></td>
                         <div class="dropdown-divider"></div>
                         <%= link_to 'My Requests', requests_path, class: 'dropdown-item' %>
                         </div>

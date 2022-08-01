@@ -16,8 +16,7 @@ class RequestsController < ApplicationController
 
   def destroy
     # request = current_account.requests.where(id: params[:request_id]).first
-    
-    request = Request.find(params[:request_id])
+    request = Request.find(params[:id])
     request.destroy
     flash[:notice] = "request destroyed"
     redirect_to my_friends_path

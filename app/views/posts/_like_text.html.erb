@@ -1,18 +1,41 @@
-<div class="text-left ml-3">
-<% likes.each.with_index do |like, index| %>
-<strong>  
+<div class="text-left ml-3 mt-1">
+<% likes.each.with_index do |like, index| %> 
   <% if likes.size == 1%>
-    <%= like.account.full_name %> </strong> likes this
+    <strong><%=  link_to like.account.full_name, account_path(like.account) %> </strong>
   <% elsif like == likes.last %>
-    </strong>and<strong>
-    <%= + like.account.full_name%></strong> like this
+    and
+    <strong><%= link_to like.account.full_name, account_path(like.account)%></strong>
   <% elsif index > 1%>
-    </strong><%= "and " +(likes.size-index).to_s + " others" %> like this
+    and 
+    <button type="button" class="btn btn-primary other-likes" data-toggle="modal" data-target="#exampleModalCenter">
+    <strong> <%= (likes.size-index).to_s %> others </strong>
+    </button>
     <%break%>
   <% elsif index==likes.size-2 || index == 1%>
-    <%= like.account.full_name%>
+    <strong> <%=  link_to like.account.full_name, account_path(like.account)%> </strong>
   <% else %>
-    <%= like.account.full_name + ", "%>
-  <% end %>
-<%end %>
+    <strong> <%=  link_to like.account.full_name, account_path(like.account) %> </strong>,
+  <% end %> 
+<%end %>liked this
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Post liked by</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% likes.each do |like| %>
+          <%= link_to like.account.full_name, account_path(like.account)%><br/>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

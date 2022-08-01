@@ -2,6 +2,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
 $(".comment-post").hide();
+window.onload = function() {
+    var reloading = sessionStorage.getItem("reloading");
+    if (reloading) {
+        $(".comment-post").hide();
+    }
+}
+
+
 function toggleComment(post_id){
   $(".comment-icon-post-"+post_id).toggle("fast");
 }
@@ -9,19 +17,32 @@ function toggleComment(post_id){
 
 <div class="container">
 <h2> User details</h2>
-<div class="card card-header results-block justify-content-md-center">
+<% if @acc.image.present? %>
+  <%= image_tag(@acc.image.variant(resize_to_fill: [180, 180])) %>
+<% else %>
+  <%= image_tag ("empty_profile.jpeg")%>
+<% end %>
+
+<div class="card card-header results-block justify-content-md-center ml-5">
+
 <table class="col-md-12">
   <tbody>
 
   <tr>
-  <td><strong>Name: </strong> <%= @acc.full_name %></td>
-  <td><strong>Email: </strong> <%= @acc.email %></td>
-  
-                        
+  <td><strong>Name: </strong> <%= @acc.full_name %></td> 
+  </tr>
+  <tr>
+  <td><strong>Email: </strong> <%= @acc.email %></td>                       
+  </tr>
+  <tr>
+  <td><%= link_to "view connections", view_connections_path(account_id: @acc.id)%></td>
   </tr>
 </tbody>
 </table>
 </div>
+
+
+
 <div class="container-fluid col-8"> 
 <% if @acc == current_account || Friendship.where(account_id: current_account.id, friend_id: @acc.id).present? || Friendship.where(account_id: @acc.id, friend_id: current_account.id).present? || current_account.company? || @acc.company?%>
   <% @posts.each do |post| %>
@@ -43,12 +64,35 @@ function toggleComment(post_id){
                   </div>
                 </div>
           </div>
-         <% if post.image.attached? %>
-         <p>
-          <%= image_tag post.image.variant(resize: "400x400") %>
-         </p>
-         <% end %>
-          <div class="card-body">
+
+        <div class="mt-1">
+         <% if post.images.count == 1 %>
+          <%= image_tag post.images.first.variant(resize: "450x450") %>
+          <% else %>
+          <div id="carouselExampleControls-<%= post.id.to_s %>" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+          <% post.images.each do |photo| %>
+            <% if photo == post.images.first %>
+              <div class="carousel-item active">
+            <% else %>
+              <div class="carousel-item">
+            <% end %>
+            <%= image_tag photo.variant(resize: "450x450") %>
+            </div>
+          <% end %>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls-<%= post.id.to_s %>" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleControls-<%= post.id.to_s %>" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        <% end %>
+        </div>
+          <div class="card-body text-left">
             <p class="card-text"><%= truncate(post.description, length: 100) %></p>
             </div>
           <div class="d-flex justify-content-center row">
@@ -58,14 +102,16 @@ function toggleComment(post_id){
                       <div class="card bg-white">
                           <div class="d-flex flex-row fs-12">
                               <!-- <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"><span class="ml-1"  >Like</span></i></div> -->
-                              <div id="like-icon-post-<%= post.id.to_s%>">
+                              <div id="like-icon-post-<%= post.id.to_s%>" class="ml-5">
                               <%= render "posts/like_icon", {is_liked: post.is_liked(current_account), post: post}%>
                               </div>
-                              <div class="like p-3 cursor comment"><button onclick="toggleComment(<%= post.id.to_s%>)"><i class="fa fa-commenting-o"><span class="ml-1">Comment</span></i></button></div>
-                              <div class="like p-3 cursor"><i class="fa fa-share"><span class="ml-1">Share</span></i></div>
+                              <div class="like cursor comment ml-5"><button onclick="toggleComment(<%= post.id.to_s%>)" class="like-button"><i class="fa fa-commenting-o"><span class="ml-1">Comment</span></i></button></div>
+                              
                           </div>
+                          <div class="card bg-white mt-2">
                           <div id="like-text-post-<%= post.id.to_s %>">
                             <%= render "posts/like_text", {likes: post.likes}%>
+                          </div>
                           </div>
                       </div>
                       <div class="comment-icon-post-<%= post.id.to_s%> comment-post">

@@ -20,11 +20,14 @@ class LikesController < ApplicationController
   def create
     @like = current_account.likes.build(like_params)
     @post = @like.post
-    
+    if @post == nil
+      print('asdf')
+      flash[:alert] = "Post has been deleted"
+    end
     if @like.save
       respond_to :js
     else 
-      flash[:alert] = "something went wrong sdf"
+      flash[:alert] = "something went wrong"
     end
     
   end 
@@ -39,6 +42,10 @@ class LikesController < ApplicationController
     end
   end
   
+  def index
+    @likes = Like.all.includes(:post, :account).order(created_at: :desc)
+  end
+
   private
   def like_params
     params.permit :post_id

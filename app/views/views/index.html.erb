@@ -1,3 +1,7 @@
+<% if @views.count == 0 %>
+<h2> No one viewed your account</h2>
+<% else %>
+<h1>Viewed your account</h1>
 <div class="row">
   <div class="col-9">  
     <table class="table table-bordered table-hover"> 
@@ -8,17 +12,19 @@
         </tr>
       </thead>
       <tbody>
-        <% @friends.each do |friend| %>
+        <% @views.each do |view|%>
+        <% byebug %>
+          <% if !view.account == current_account %>
           <tr>  
-            <td><%= link_to friend.full_name, account_path(friend) %></td>
+            <td><%= link_to view.account.full_name, account_path(view) %></td>
             <td><%= link_to 'View Profile', account_path(friend),
                                           class: 'btn btn-sm btn-warning' %>
-            
-            <%= link_to 'Stop following', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
-                                          class: 'btn btn-sm btn-warning' %></td>
+            <%= link_to "okay", view_path(view), method: :delete, class: 'btn btn-sm btn-warning'%></td>
           </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
   </div>
 </div>
+<% end %>

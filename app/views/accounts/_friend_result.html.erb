@@ -3,22 +3,26 @@
   <%= render 'layouts/messages' %>
 </div>
 <% if @friends.count > 0 %>
-<% if @friends %>
+<% if @friends %> 
   <div class="card card-header results-block">
-  <table class="col-md-12">
+  <table class="col-md-12" style="border: 1px;">
+  <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
     <tbody>
   <% @friends.each do |friend| %>
     <tr>
-    <td><strong>Name: </strong> <%= friend.full_name %></td>
-    <td><strong>Email: </strong> <%= friend.email %></td>
-    <td><strong>Actions: </strong> <%= link_to "View Profile", account_path(friend),   
-                                      class: "btn btn-sm btn-success" %>
-                                 
+    <td><%= link_to friend.full_name, account_path(friend)%></td>
+    <td><%= friend.email %></td>
+    <td>
     <% if Request.where(account_id: current_account, friend_id: friend.id, status: 0).exists?%>
-      <span class="badge badge-secondar">
-          Request sent
-        </span>
-    <% elsif current_account.not_friends_with?(friend.id) && friend.not_friends_with?(current_account)%>
+      <%= link_to 'Undo Request', request_path(Request.find_by(account_id: current_account, friend_id: friend.id)), method: :delete, data: {confirm: 'Are you sure?'},
+                                            class: 'btn btn-sm btn-danger' %>
+    <% elsif current_account.not_friends_with?(friend.id)%>
       <% if friend.company? %>
        <%= link_to 'Follow?', friendships_path(account: friend, friend: current_account),
                             class: "btn btn-sm btn-success", method: :post %>  

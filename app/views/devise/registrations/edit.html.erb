@@ -8,7 +8,7 @@
 
   <div class="form-group">
   <label class="col-sm-4 col-form-label">Profile Pic:
-  <% if current_account.image.present? %><br />Current: <%= image_tag(current_account.image) %><% end %>
+  <% if current_account.image.present? %><br />Current: <%= image_tag(current_account.image.variant(resize: "180x180")) %><% end %>
   </label>
   <div class="col-sm-8"><%= f.file_field :image, class: "form-control" %></div>
   </div>

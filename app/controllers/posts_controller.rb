@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
   def index 
-    @posts = Post.all.includes(:account, :likes).with_attached_image.order('created_at DESC')
+    @posts = Post.all.includes(:account, :likes).with_attached_images.order('created_at DESC')
   end
   def create
-    @post = Post.new(params.require(:post).permit(:description, :image))
+    @post = Post.new(params.require(:post).permit(:description, :images))
     @post.account = current_account
-    @post.image.attach(params[:post][:image])
+    @post.images.attach(params[:post][:images])
     if @post.save
       flash[:notice] = "Post created successfully"
       redirect_to account_path(current_account) 

@@ -1,5 +1,5 @@
 document.querySelector('#like-icon-post-<%= @post.id.to_s%>').
-  innerHTML = '<%= link_to "Like", likes_path(post_id: @post.id), method: :post, remote: true, class: "like p-4 cursor fa fa-thumbs-o-up"%>' ;
+  innerHTML = '<%= link_to "Like", likes_path(post_id: @post.id), method: :post, remote: true, class: "like p-3 cursor fa fa-thumbs-o-up"%>' ;
 document.querySelector('#like-text-post-<%= @post.id.to_s %>').
   innerHTML = '<%= j render "posts/like_text", {likes: @post.likes} %>';
 

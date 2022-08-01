@@ -1,5 +1,7 @@
 <h1>Friends</h1>
-
+<div class="w-100 p-3">
+<div class="row">
+<div class="col-md-6">
 <div class='search-area'>
   <h3>Search Friends</h3> 
   <%= form_tag search_friends_path, remote: true, method: :get do %>
@@ -19,7 +21,14 @@
 <div id="friend-results">
 
 </div>
-
+</div>
+<div class="col-md-6 mt-5">
+<h3>Your Connections</h3>
 <% if @friends.count > 0 %>
   <%= render 'friends/list' %>
+<% else %>
+  <h4>Sorry, you have no friends!!!</h4>
 <% end %> 
+</div>
+</div>
+</div>
