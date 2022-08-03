@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <%= link_to 'Connected', root_path, class: 'navbar-brand' %>
+        <%= link_to 'CONNECTED', root_path, class: 'navbar-brand' %>
         <% if current_account %> 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -8,11 +8,14 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item <%= 'active' if request.path == account_path(current_account) %>">
+                    <li class="nav-item <%= 'like-active' if request.path == account_path(current_account) %>">
                         <%= link_to 'My Account', account_path(current_account), class: 'nav-link' %>
                     </li>
-                    <li class="nav-item <%= 'active' if request.path == my_friends_path %>">
+                    <li class="nav-item <%= 'like-active' if request.path == my_friends_path %>">
                     <%= link_to 'My Friends', my_friends_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item <%= 'like-active' if request.path == search_new_path %>">
+                    <%= link_to 'Search', search_new_path, class: 'nav-link' %>
                 </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -32,7 +35,7 @@
                 </ul>
                 <ul class='navbar-nav ml-auto'>
                     <li class='nav-item user-name'>
-                        <%= fa_icon 'user' %> <%= current_account.full_name %>
+                        <%= fa_icon 'user' %> <%= link_to current_account.full_name, account_path(current_account) %>
                         <% if current_account.company? %>
                             <i class="fa fa-check" style="color: #00FFFF;"></i>
                         <% end %>

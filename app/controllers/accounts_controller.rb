@@ -3,7 +3,20 @@ class AccountsController < ApplicationController
    
   def my_friends
     @friends = current_account.friends 
+    @requests = Request.where(account_id: current_account, status: 0)
     # @left_account = Account.where(id: Friendship.where(friend_id: current_account).select(:account_id))
+  end
+
+  def search_new
+    @accounts = Account.where.not(id: current_account)
+    @suggested_accounts = []
+    @accounts.each do |account|
+      if !(Friendship.where(account_id: current_account,friend_id: account).exists? || Request.where(account_id: current_account, friend_id: account, status: 0).exists? || 
+            Request.where(account_id: account, friend_id: current_account, status: 0).exists?)
+        @suggested_accounts.append(account)
+      end
+    end
+    @suggested_accounts = @suggested_accounts.sample(4)
   end
 
   def view_connections
@@ -35,9 +48,15 @@ class AccountsController < ApplicationController
 
   def show
     @acc = Account.find(params[:id])
-    
-      View.create(account_id: current_account.id,friend_id: @acc.id )
-    
+    if !(current_account == @acc) 
+      if (View.where(account_id: current_account.id, friend_id: @acc.id).exists?)
+        view = View.find_by(account_id: current_account.id, friend_id: @acc.id)
+        view.created_at = Time.now
+        view.save
+      else
+        View.create(account_id: current_account.id,friend_id: @acc.id )
+      end
+    end
     @posts = @acc.posts.order('created_at DESC')
     @friend = Friendship.find_by(account_id: @acc.id)
   end

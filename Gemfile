@@ -27,6 +27,8 @@ gem "font-awesome-rails"
 gem 'image_processing', '~> 1.2'
 gem 'activestorage-validator'
 gem 'rails-observers'
+gem 'pagy', '~> 3.0.0'
+gem 'whenever'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

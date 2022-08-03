@@ -7,11 +7,17 @@
   <%= bootstrap_devise_error_messages! %>
 
   <div class="form-group">
-  <label class="col-sm-4 col-form-label">Profile Pic:
-  <% if current_account.image.present? %><br />Current: <%= image_tag(current_account.image.variant(resize: "180x180")) %><% end %>
+  <label class="col-sm-4 col-form-label">Current profile pic: 
+  <% if current_account.image.present? %>
+    <%= image_tag(current_account.image.variant(resize: "180x180")) %>
+  <% else %>
+    <%= image_tag("empty_profile.jpeg", :size => '180x180')%>
+  <% end %>
   </label>
-  <div class="col-sm-8"><%= f.file_field :image, class: "form-control" %></div>
   </div>
+  <div class="mb-3">
+    <%= f.file_field :image %></div>
+  
   <div class="form-group">
     <%= f.label :email %>
     <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control' %>

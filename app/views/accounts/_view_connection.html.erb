@@ -16,11 +16,14 @@
             <td><%= link_to 'View Profile', account_path(friend),
                                           class: 'btn btn-sm btn-warning' %>
             <% if !current_account.not_friends_with?(friend.id) && !(current_account == friend) %>
-            <%= link_to 'Stop following', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
-                                          class: 'btn btn-sm btn-warning' %></td>
-            <% elsif !(current_account == friend) %>
-            <%= link_to 'Follow?', friendships_path(account: friend, friend: current_account),
+            <%= link_to 'Disconnect', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
+                                          class: 'btn btn-sm btn-danger' %></td>
+            <% elsif friend.company? %>
+            <%= link_to 'Follow', friendships_path(account: friend, friend: current_account),
                             class: "btn btn-sm btn-success", method: :post %>  
+            <% elsif !(current_account == friend) %>
+            <%= link_to 'Connect', requests_path(friend: friend),
+                                  class: "btn btn-sm btn-success mt-1", method: :post %>    
             <% end %>
           </tr>
         <% end %>

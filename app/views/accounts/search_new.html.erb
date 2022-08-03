@@ -1,0 +1,55 @@
+<h1>Search</h1>
+
+<div class="w-100 p-3">
+<div class="row">
+<div class="col-md-7">
+<div class='search-area'>
+  <h3>Search Friends</h3> 
+  <%= form_tag search_friends_path, remote: true, method: :get do %>
+    <div class="form-group row">
+      <div class="col-sm-9 no-right-padding">
+        <%= text_field_tag :friend, params[:friend], placeholder: "Name or email", autofocus: true, class: "form-control form-control-lg" %>
+      </div>
+      <div class="col-sm-3 no-left-padding">
+        <%= button_tag type: :submit, class: "btn btn-success" do %>
+          <%= fa_icon 'search 2x' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+<div id="friend-results">
+
+</div>
+
+</div>
+<div class="col-md-5 mt-5">
+  <h3>Suggestions</h3>
+  <div class="row">
+    <% @suggested_accounts.each do |account|%>
+    <div class="col-md-5 mt-2">
+      <div class="card text-center" style="width: 10rem;">
+        <div class="card-body">
+        <% if account.image.present? %>
+          <%= image_tag(account.image.variant(resize: "150x100"), :class => "rounded-circle")%>
+        <% else %>
+          <%= image_tag("empty_profile.jpeg", :size => '100x100', :class => "rounded-circle")%>
+        <% end %>
+        <%= link_to account.full_name, account_path(account)%>
+        <% if account.company? %>
+            <%= link_to 'Follow?', friendships_path(account: current_account, friend: account),
+                                  class: "btn btn-sm btn-success mt-1", method: :post %>  
+            <% else %><br/>
+            <%= link_to 'Connect?', requests_path(friend: account),
+                                  class: "btn btn-sm btn-success mt-1", method: :post %>   
+            <% end %>  <br/>
+          </div>
+      </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>
+</div>

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'search_friends', to: 'accounts#search'
   get 'view_connections', to: 'accounts#view_connections'
   get 'viewed_my_account', to: 'views#index'
+  get 'search_new', to: 'accounts#search_new'
   
   resources :friendships, only: [:create, :destroy]
   resources :accounts, only: [:show, :destroy]

@@ -1,14 +1,21 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-$(".comment-post").hide();
+
+// window.onload = function() {
+//     var reloading = sessionStorage.getItem("reloading");
+//     if (performance.navigation.type == performance.navigation.TYPE_RELOAD){
+//       document.getElementsByClassName('comment-post-hide')[0].remove();
+//       console.log("asdfawf")
+//       }
+// }
+document.getElementById("comment-button")[0].click();
 window.onload = function() {
     var reloading = sessionStorage.getItem("reloading");
     if (reloading) {
-        $(".comment-post").hide();
+        $(".comment-post-hide").hide();
     }
 }
-
 
 function toggleComment(post_id){
   $(".comment-icon-post-"+post_id).toggle("fast");
@@ -16,14 +23,17 @@ function toggleComment(post_id){
 </script>
 
 <div class="container">
-<h2> User details</h2>
+
+
+<div class="container-fluid col-8"> 
+<h3> User details</h3>
 <% if @acc.image.present? %>
-  <%= image_tag(@acc.image.variant(resize_to_fill: [180, 180])) %>
+  <%= image_tag(@acc.image.variant(resize: "220x220")) %>
 <% else %>
-  <%= image_tag ("empty_profile.jpeg")%>
+   <%= image_tag("empty_profile.jpeg", :size => '220x220')%>
 <% end %>
 
-<div class="card card-header results-block justify-content-md-center ml-5">
+<div class="card card-header results-block justify-content-md-center ml-5 ">
 
 <table class="col-md-12">
   <tbody>
@@ -34,16 +44,31 @@ function toggleComment(post_id){
   <tr>
   <td><strong>Email: </strong> <%= @acc.email %></td>                       
   </tr>
+  <% if @acc == current_account || Friendship.where(account_id: current_account.id, friend_id: @acc.id).present? || Friendship.where(account_id: @acc.id, friend_id: current_account.id).present? || @acc.company?%>
   <tr>
-  <td><%= link_to "view connections", view_connections_path(account_id: @acc.id)%></td>
+  <td><%= link_to "Connections", view_connections_path(account_id: @acc.id)%></td>
   </tr>
+  <% end %>
 </tbody>
 </table>
+<% if !(current_account == @acc)%>
+  <% if !current_account.not_friends_with?(@acc.id) && !(current_account == @acc) %>
+    <%= link_to 'Disconnect', friendship_path(@acc), method: :delete, data: {confirm: 'Are you sure?'},
+                                  class: 'btn btn-sm btn-danger' %></td>
+  <% elsif Request.where(account_id: current_account, friend_id: @acc, status: 0).exists?%>
+      <%= link_to 'Undo Request', request_path(Request.find_by(account_id: current_account, friend_id: @acc.id)), method: :delete, data: {confirm: 'Are you sure?'},
+                                            class: 'btn btn-sm btn-warning' %> 
+  <% elsif Request.where(account_id: @acc.id, friend_id: current_account, status: 0).exists?%>
+      <%= link_to 'Requested You', requests_path, class: 'btn btn-sm btn-success'%>                                                                         
+  <% elsif @acc.company? %>
+    <%= link_to 'Follow', friendships_path(account: @acc, friend: current_account),
+                    class: "btn btn-sm btn-success", method: :post %>  
+  <% elsif !(current_account == @acc) %>
+    <%= link_to 'Connect', requests_path(friend: @acc),
+                          class: "btn btn-sm btn-success mt-1", method: :post %>    
+  <% end %> 
+<% end %>
 </div>
-
-
-
-<div class="container-fluid col-8"> 
 <% if @acc == current_account || Friendship.where(account_id: current_account.id, friend_id: @acc.id).present? || Friendship.where(account_id: @acc.id, friend_id: current_account.id).present? || current_account.company? || @acc.company?%>
   <% @posts.each do |post| %>
     <div class="row justify-content-md-center">
@@ -57,7 +82,7 @@ function toggleComment(post_id){
                   <% else %>
                     <%= image_tag ("empty_profile.jpeg"), class: "rounded-circle profile_pic"%>
                   <% end %>
-                      <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name"><%= link_to post.account.full_name, account_path(post.account) %></span><span class="date text-black-50"><%= time_ago_in_words(post.created_at) %></span></div>
+                      <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name"><%= link_to post.account.full_name, account_path(post.account) %></span><span class="date text-black-50 text-left"><%= time_ago_in_words(post.created_at) %> ago</span></div>
                       <% if Account.find(post.account_id) == current_account%>
                     <div><%= link_to "Delete", post_path(post), class: "btn btn-outline-danger float-right delete-button-in-acc", method: :delete, data: {confirm: "Are you sure?"} %></div>
                       <% end %>
@@ -100,12 +125,12 @@ function toggleComment(post_id){
                   <div class="d-flex flex-column comment-section">
                       
                       <div class="card bg-white">
-                          <div class="d-flex flex-row fs-12">
+                          <div class="d-flex flex-row fs-12 mt-2">
                               <!-- <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"><span class="ml-1"  >Like</span></i></div> -->
                               <div id="like-icon-post-<%= post.id.to_s%>" class="ml-5">
                               <%= render "posts/like_icon", {is_liked: post.is_liked(current_account), post: post}%>
                               </div>
-                              <div class="like cursor comment ml-5"><button onclick="toggleComment(<%= post.id.to_s%>)" class="like-button"><i class="fa fa-commenting-o"><span class="ml-1">Comment</span></i></button></div>
+                              <div class="like cursor comment ml-5"><button onclick="toggleComment(<%= post.id.to_s%>)" class="like-button" id="comment-button"><i class="fa fa-commenting-o"><span class="ml-1">Comment</span></i></button></div>
                               
                           </div>
                           <div class="card bg-white mt-2">
@@ -114,16 +139,18 @@ function toggleComment(post_id){
                           </div>
                           </div>
                       </div>
-                      <div class="comment-icon-post-<%= post.id.to_s%> comment-post">
-                        <div class="container">
-                        <div class="bg-light p-2">
-                          <div class="row actions" id="comment-form-post-<%= post.id.to_s%>">
-                            <%= render "posts/comment_form", {post: post}%>
+                      <div class="comment-post-hide">
+                        <div class="comment-icon-post-<%= post.id.to_s%>">
+                          <div class="container">
+                          <div class="bg-light p-2">
+                            <div class="row actions" id="comment-form-post-<%= post.id.to_s%>">
+                              <%= render "posts/comment_form", {post: post}%>
+                            </div>
                           </div>
-                        </div>
-                        </div>
-                        <div id="comment-post-<%= post.id.to_s%>">
-                          <%= render "posts/comment_list", {post: post}%>
+                          </div>
+                          <div id="comment-post-<%= post.id.to_s%>">
+                            <%= render "posts/comment_list", {post: post}%>
+                          </div>
                         </div>
                       </div>
                   </div>
@@ -134,7 +161,7 @@ function toggleComment(post_id){
     </div>
   <% end %>
 <% else %>
-Please connect to view their posts
+<h3><center class="mt-5">Please connect to view their posts and connections</center></h3>
 <% end %>
 </div>
 </div>

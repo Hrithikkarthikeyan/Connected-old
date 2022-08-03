@@ -1,8 +1,8 @@
 
 <% if is_liked.present? %>
   <%= link_to "Liked", like_path(is_liked), method: :delete, remote: true,
-  class: "like p-3 cursor active fa fa-thumbs-o-up"%>
+  class: "like p-2 cursor like-active fa fa-thumbs-o-up"%>
 <% else %>
   <%= link_to "Like", likes_path(post_id: post.id), method: :post, remote: true,
-  class: "like p-3 cursor fa fa-thumbs-o-up"%>
+  class: "like p-2 cursor fa fa-thumbs-o-up"%>
 <% end %>

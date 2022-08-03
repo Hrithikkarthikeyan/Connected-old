@@ -1,24 +1,19 @@
-<div class="row">
-  <div class="col-9">  
-    <table class="table table-bordered table-hover"> 
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @friends.each do |friend| %>
-          <tr>  
-            <td><%= link_to friend.full_name, account_path(friend) %></td>
-            <td><%= link_to 'View Profile', account_path(friend),
-                                          class: 'btn btn-sm btn-warning' %>
-            
-            <%= link_to 'Stop following', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
-                                          class: 'btn btn-sm btn-warning' %></td>
-          </tr>
+  
+    <div class="row">
+    <% @friends.each do |friend|%>
+    <div class="col-md-4 mt-2">
+      <div class="card text-center" style="width: 10rem;">
+        <div class="card-body">
+        <% if friend.image.present? %>
+          <%= image_tag(friend.image.variant(resize: "100x100"), :class => "rounded-circle")%>
+        <% else %>
+          <%= image_tag("empty_profile.jpeg", :size => '100x100', :class => "rounded-circle")%>
         <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+        <%= link_to friend.full_name, account_path(friend)%>
+        <%= link_to 'Disconnect', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
+                                          class: 'btn btn-sm btn-warning' %> <br/>
+          </div>
+      </div>
+      </div>
+    <% end %>
+    </div>

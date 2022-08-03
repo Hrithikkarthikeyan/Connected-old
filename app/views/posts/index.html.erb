@@ -6,8 +6,10 @@
     <% end %>
   <% end %>
   <% @posts.each do |post| %>
-  <% if  Account.find_by(id: post.account_id).company? && !(Friendship.where(account_id: current_account.id, friend_id: post.account_id).present?)%>
-    <%= render 'list_posts', {post: post}%>
+    <% if !(current_account == post.account || Friendship.where(account_id: current_account.id, friend_id: post.account_id).present? || Friendship.where(account_id: post.account_id, friend_id: current_account.id).present? || current_account.company?)%>
+      <% if  Account.find_by(id: post.account_id).company? && !(Friendship.where(account_id: current_account.id, friend_id: post.account_id).present?)%>
+        <%= render 'list_posts', {post: post}%>
+      <% end %>
     <% end %>
   <% end %>
 </div>

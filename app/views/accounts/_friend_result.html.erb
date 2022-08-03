@@ -5,12 +5,12 @@
 <% if @friends.count > 0 %>
 <% if @friends %> 
   <div class="card card-header results-block">
-  <table class="col-md-12" style="border: 1px;">
+  <table class="col-md-12" style="overflow-x: auto; border: 1px; width: 100%; padding: 35px;">
   <thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Actions</th>
+          <th scope="col" style="width: 100px; color: blue;">Name</th>
+          <th scope="col" style="width: 200px; color: blue;">Email</th>
+          <th scope="col" style="width: 120px; color: blue;">Actions</th>
         </tr>
       </thead>
     <tbody>
@@ -21,22 +21,22 @@
     <td>
     <% if Request.where(account_id: current_account, friend_id: friend.id, status: 0).exists?%>
       <%= link_to 'Undo Request', request_path(Request.find_by(account_id: current_account, friend_id: friend.id)), method: :delete, data: {confirm: 'Are you sure?'},
-                                            class: 'btn btn-sm btn-danger' %>
+                                            class: 'btn btn-sm btn-warning btn-block' %>
+    <% elsif Request.where(account_id: friend.id, friend_id: current_account, status: 0).exists?%>
+      <%= link_to 'Requested You', requests_path, class: 'btn btn-sm btn-success'%>
     <% elsif current_account.not_friends_with?(friend.id)%>
       <% if friend.company? %>
        <%= link_to 'Follow?', friendships_path(account: friend, friend: current_account),
-                            class: "btn btn-sm btn-success", method: :post %>  
+                            class: "btn btn-sm btn-success btn-block", method: :post %>  
       <% else %>
       <%= link_to 'Connect?', requests_path(friend: friend),
-                            class: "btn btn-sm btn-success", method: :post %>   
+                            class: "btn btn-sm btn-success btn-block", method: :post %>   
       <% end %>              
     <% else %>
-      <span class="badge badge-secondar">
-        You are connections
-        </span>
+         <%= link_to 'Disconnect', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
+                                          class: 'btn btn-sm btn-danger btn-block' %> 
     <% end  %>
-    </td>
-                          
+    </td>                         
     </tr>
   <% end %>
   </tbody>

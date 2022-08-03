@@ -1,7 +1,17 @@
-<%= form_with model: @post, local: true do |form| %>
+<%= form_with model: @post, local: true do |f| %>
   
-  <%= form.text_area :description %><br><br>
+  <div class="card">
+  <div class="card-body">
 
-  <%= form.file_field :images, multiple: true %><br>
-  <%= form.submit%>
+    <div class="mb-3">
+      <%= f.label :description, { class: "form-label"} %>
+      <%= f.text_field :description, { class: "form-control", placeholder: "Enter Description" } %>
+    </div>
+    <div class="mb-3">
+      <%= f.file_field :images, multiple: true   %>
+    </div>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+
+  </div>
+</div>
 <% end %>

@@ -33,21 +33,21 @@ body{background: #eee}.date{font-size: 11px}.comment-text{font-size: 12px}.fs-12
   background-color:  rgb(163, 211, 163);
   border-radius: 10px;
   color: #333; /* Dark grey */ 
-  width: 130px;
-  height: 50px;
-  margin-left: 20px;
+  width: 110px;
+  height: 40px;
+  margin-left: 2rem;
   transition-duration: 0.4s;
   cursor: pointer;
   text-decoration: none;
 }
 
-.active{
+.like-active{
   text-align: center;
   background-color: #4978f0;
 }
 
 .delete-button-in-acc{
-  margin-left: 150px;
+  margin-left: 170px;
 }
 
 .delete-comment{
@@ -69,8 +69,8 @@ body{background: #eee}.date{font-size: 11px}.comment-text{font-size: 12px}.fs-12
   text-decoration: none;
   font-size: 18px;
   transition-duration: 0.4s;
-  width: 130px;
-  height: 50px;
+  width: 110px;
+  height: 40px;
   cursor: pointer;
 }
 

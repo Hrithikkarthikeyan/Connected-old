@@ -36,10 +36,10 @@ function toggleComment(post_id){
                       <i class="fa fa-check" style="color: #00FFFF;"></i>
                   <% end %>
                   </span>
-                  <span class="date text-black-50"><%= time_ago_in_words(post.created_at) %></span>
+                  <span class="date text-black-50 text-left"><%= time_ago_in_words(post.created_at) %> ago</span>
                   </div>
                  <% if Account.find(post.account_id) == current_account%>
-                    <div><%= link_to "Delete", post_path(post), class: "btn btn-outline-danger float-right delete-button-in-acc", method: :delete, data: {confirm: "Are you sure?"} %></div>
+                    <div><p align="right"><%= link_to "Delete", post_path(post), class: "btn btn-outline-danger float-right delete-button-in-acc", method: :delete, data: {confirm: "Are you sure?"} %></p></div>
                       <% end %>
             </div>            
         </div>
@@ -84,19 +84,19 @@ function toggleComment(post_id){
                               <!-- <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"><span class="ml-1"  >Like</span></i></div> -->
                               
                               <div id="like-icon-post-<%= post.id.to_s%>" class="ml-5">
-                              <%= render "like_icon", {is_liked: post.is_liked(current_account), post: post}%>
+                              <%= render "posts/like_icon", {is_liked: post.is_liked(current_account), post: post}%>
                               </div>
                               <div class="like cursor comment ml-5"><button onclick="toggleComment(<%= post.id.to_s%>)" class="like-button"><i class="fa fa-commenting-o"><span class="ml-1">Comment</span></i></button></div>
                               
                           </div>
                           <div class="card bg-white mt-2">
                             <div id="like-text-post-<%= post.id.to_s %>">
-                              <%= render "like_text", {likes: post.likes}%>
+                              <%= render "posts/like_text", {likes: post.likes}%>
                             </div>
                           </div>
                       </div>
                       <div class="comment-icon-post-<%= post.id.to_s%> comment-post">
-                        <%= render "comment_full", {post: post} %>
+                        <%= render "posts/comment_full", {post: post} %>
                       </div>
                     </div>
             </div>

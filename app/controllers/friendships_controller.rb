@@ -2,15 +2,14 @@ class FriendshipsController < ApplicationController
   def create
     friend = Account.find(params[:friend])
     account = Account.find(params[:account])
-    if !account.company?
+    if !account.company? && !friend.company?
       request = Request.find_by(account_id: account.id,friend_id: friend.id)
       request.status = 1
       request.save
     end
     Friendship.create(account_id: friend.id, friend_id: account.id)
-    if !account.company?
-      Friendship.create(account_id: account.id, friend_id: friend.id)
-    end
+    Friendship.create(account_id: account.id, friend_id: friend.id)
+    
     flash[:notice] = "Connected Successfully"
     # if friendship.save
     #   flash[:notice] = "Connected successfully"
@@ -30,10 +29,9 @@ class FriendshipsController < ApplicationController
   def destroy
     friendship = current_account.friendships.where(friend_id: params[:id]).first
     acc = Account.find_by(params[:id])
-    if !acc.company?
-      friendship2 = Friendship.find_by(account_id: params[:id], friend_id: current_account)
-      friendship2.destroy
-    end
+    friendship2 = Friendship.find_by(account_id: params[:id], friend_id: current_account)
+    friendship2.destroy
+    
     # Request.find_by(account_id: current_account.id,friend_id: params[:id]).destroy
     friendship.destroy
     flash[:notice] = "Stopped, following"

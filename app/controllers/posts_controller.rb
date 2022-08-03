@@ -16,7 +16,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @likes = @post.likes.includes(:account)
+    @likes = @post.likes.includes(:account, :like)
     @comment = Comment.new
     @is_liked = @post.is_liked(current_account)
   end
