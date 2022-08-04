@@ -6,17 +6,16 @@
 <% if @friends.count > 0 %>
   <%= render 'friends/list' %>
 <% else %>
-  <h4>Sorry, you have no friends!!!</h4>
+  <h5>Sorry, you have no friends!!!</h5>
 <% end %> 
 </div>
 <div class="col-md-2">
 </div>
 <div class="col-md-4">
-<% if @requests.count == 0 %>
-<h3>You have not requested anyone yet</h3>
-<% else %>
 <h3>You Requested</h3>
-
+<% if @requests.count == 0 %>
+<h5>You have not requested anyone yet</h5>
+<% else %>
   <table class="table table-bordered table-hover" style="text-align: center;"> 
       <thead>
         <tr>

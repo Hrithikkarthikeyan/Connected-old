@@ -1,4 +1,23 @@
 <div class="row">
+<div class="container-fluid col-3">
+<%= form_with model: [Post.new], local: true do |f| %>
+  
+  <div class="card">
+  <div class="card-body">
+
+    <div class="mb-3">
+      <%= f.label :description, { class: "form-label"} %>
+      <%= f.text_field :description, { class: "form-control", placeholder: "Enter Description", required: true } %>
+    </div>
+    <div class="mb-3">
+      <%= f.file_field :images, multiple: true   %>
+    </div>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+
+  </div>
+</div>
+<% end %>
+</div>
 <div class="container-fluid col-8">
   <% @posts.each do |post| %>
   <% if current_account == post.account || Friendship.where(account_id: current_account.id, friend_id: post.account_id).present? || Friendship.where(account_id: post.account_id, friend_id: current_account.id).present? || current_account.company?%>
@@ -12,5 +31,7 @@
       <% end %>
     <% end %>
   <% end %>
+</div>
+<div class="container-fluid col-1">
 </div>
 </div>

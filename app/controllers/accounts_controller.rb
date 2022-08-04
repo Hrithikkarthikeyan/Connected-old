@@ -26,7 +26,7 @@ class AccountsController < ApplicationController
     end
     # @suggested_accounts = @suggested_accounts.sample(4)
     temp = @suggested_accounts
-    @suggested_accounts = @second_friends & @suggested_accounts
+    @suggested_accounts = @second_friends 
     if @suggested_accounts.count == 0
       @suggested_accounts = temp.sample(6)
     end 
