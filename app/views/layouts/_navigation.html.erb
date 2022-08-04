@@ -30,9 +30,11 @@
                         <% end %>
                         
                         <%= link_to "Viewers", viewed_my_account_path(account_id: current_account), class: 'dropdown-item'%></td>
+                        <% if !current_account.company?%>
                         <div class="dropdown-divider"></div>
                         <%= link_to 'My Requests', requests_path, class: 'dropdown-item' %>
                         </div>
+                        <% end %>
                     </li>
                     
                 </ul>

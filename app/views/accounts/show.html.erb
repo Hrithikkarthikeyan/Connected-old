@@ -72,6 +72,9 @@ function toggleComment(post_id){
 <% end %>
 </div>
 <% if @acc == current_account || Friendship.where(account_id: current_account.id, friend_id: @acc.id).present? || Friendship.where(account_id: @acc.id, friend_id: current_account.id).present? || current_account.company? || @acc.company?%>
+<% if @posts.count == 0 %>
+  <h3><center class="mt-5">The user has no posts</center></h3>
+<% end %>
   <% @posts.each do |post| %>
     <div class="row justify-content-md-center">
       <div class="col-8 mt-4">

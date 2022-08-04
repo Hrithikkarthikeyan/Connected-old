@@ -8,7 +8,7 @@
           <%= image_tag(friend.image.variant(resize: "100x100"), :class => "rounded-circle")%>
         <% else %>
           <%= image_tag("empty_profile.jpeg", :size => '100x100', :class => "rounded-circle")%>
-        <% end %>
+        <% end %><br/>
         <%= link_to friend.full_name, account_path(friend)%>
         <%= link_to 'Disconnect', friendship_path(friend), method: :delete, data: {confirm: 'Are you sure?'},
                                           class: 'btn btn-sm btn-danger' %> <br/>
