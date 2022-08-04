@@ -21,9 +21,9 @@
     <td>
     <% if Request.where(account_id: current_account, friend_id: friend.id, status: 0).exists?%>
       <%= link_to 'Undo Request', request_path(Request.find_by(account_id: current_account, friend_id: friend.id)), method: :delete, data: {confirm: 'Are you sure?'},
-                                            class: 'btn btn-sm btn-warning btn-block' %>
+                                            class: 'btn btn-sm btn-danger btn-block' %>
     <% elsif Request.where(account_id: friend.id, friend_id: current_account, status: 0).exists?%>
-      <%= link_to 'Requested You', requests_path, class: 'btn btn-sm btn-success'%>
+      <%= link_to 'Requested You', requests_path, class: 'btn btn-sm btn-warning btn-block'%>
     <% elsif current_account.not_friends_with?(friend.id)%>
       <% if friend.company? %>
        <%= link_to 'Follow?', friendships_path(account: friend, friend: current_account),

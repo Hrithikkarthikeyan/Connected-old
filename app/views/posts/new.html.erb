@@ -5,7 +5,7 @@
 
     <div class="mb-3">
       <%= f.label :description, { class: "form-label"} %>
-      <%= f.text_field :description, { class: "form-control", placeholder: "Enter Description" } %>
+      <%= f.text_field :description, { class: "form-control", placeholder: "Enter Description", required: true } %>
     </div>
     <div class="mb-3">
       <%= f.file_field :images, multiple: true   %>

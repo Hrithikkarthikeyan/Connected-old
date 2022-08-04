@@ -9,6 +9,14 @@ class AccountsController < ApplicationController
 
   def search_new
     @accounts = Account.where.not(id: current_account)
+    @first_friends = current_account.friends
+    @second_friends = []
+    @first_friends.each do |friend|
+      friend.friends.each do |fr|
+        @second_friends.append(fr)
+      end 
+    end
+    @second_friends = @second_friends.uniq
     @suggested_accounts = []
     @accounts.each do |account|
       if !(Friendship.where(account_id: current_account,friend_id: account).exists? || Request.where(account_id: current_account, friend_id: account, status: 0).exists? || 
@@ -16,7 +24,12 @@ class AccountsController < ApplicationController
         @suggested_accounts.append(account)
       end
     end
-    @suggested_accounts = @suggested_accounts.sample(4)
+    # @suggested_accounts = @suggested_accounts.sample(4)
+    temp = @suggested_accounts
+    @suggested_accounts = @second_friends & @suggested_accounts
+    if @suggested_accounts.count == 0
+      @suggested_accounts = temp
+    end 
   end
 
   def view_connections

@@ -15,13 +15,27 @@
 <% if @requests.count == 0 %>
 <h3>You have not requested anyone yet</h3>
 <% else %>
-<h3>Requested</h3>
+<h3>You Requested</h3>
+
+  <table class="table table-bordered table-hover" style="text-align: center;"> 
+      <thead>
+        <tr>
+          <th scope="col" style="width: 120px">Name</th>
+          <th scope="col" style="width: 20px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
   <% @requests.each do |request|%>
-  <% acc = Account.find(request.friend_id) %>
-  <%= link_to acc.full_name, account_path(acc)%>
-        <%= link_to 'Undo Request', request_path(request), method: :delete, data: {confirm: 'Are you sure?'},
-                                              class: 'btn btn-sm btn-warning' %><br/>
-  <% end %>
+  <tr>
+    <% acc = Account.find(request.friend_id) %>
+    <td><%= link_to acc.full_name, account_path(acc)%></td>
+       <td> <%= link_to 'Undo', request_path(request), method: :delete, data: {confirm: 'Are you sure?'},
+                                                class: 'btn btn-sm btn-warning' %></td>
+    </tr>
+    <% end %>
+  </tbody>
+    </table>
+    
 <% end %>
 <div>
 </div>

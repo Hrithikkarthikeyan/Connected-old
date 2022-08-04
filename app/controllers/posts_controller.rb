@@ -10,6 +10,7 @@ class PostsController < ApplicationController
       flash[:notice] = "Post created successfully"
       redirect_to account_path(current_account) 
     else
+      flash[:alert] = "Please upload an image file (<5mb)."
       render 'new'
     end
   end

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position: fixed;top: 0; width: 100%;z-index:1;">
     <div class="container">
         <%= link_to 'CONNECTED', root_path, class: 'navbar-brand' %>
         <% if current_account %> 
@@ -17,6 +17,9 @@
                 <li class="nav-item <%= 'like-active' if request.path == search_new_path %>">
                     <%= link_to 'Search', search_new_path, class: 'nav-link' %>
                 </li>
+                <li class="nav-item <%= 'like-active' if request.path == new_post_path %>">
+                    <%= link_to 'New Post', new_post_path, class: 'nav-link' %>
+                </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Profile
@@ -25,7 +28,7 @@
                         <%= link_to edit_account_registration_path, class: 'dropdown-item' do %>
                             <%= fa_icon 'edit' %> Edit profile
                         <% end %>
-                        <%= link_to 'New Post', new_post_path, class: 'dropdown-item' %>
+                        
                         <%= link_to "Viewers", viewed_my_account_path(account_id: current_account), class: 'dropdown-item'%></td>
                         <div class="dropdown-divider"></div>
                         <%= link_to 'My Requests', requests_path, class: 'dropdown-item' %>

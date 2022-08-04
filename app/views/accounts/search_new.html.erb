@@ -33,10 +33,10 @@
       <div class="card text-center" style="width: 10rem;">
         <div class="card-body">
         <% if account.image.present? %>
-          <%= image_tag(account.image.variant(resize: "150x100"), :class => "rounded-circle")%>
+          <%= image_tag(account.image.variant(resize: "120x100"), :class => "rounded-circle")%>
         <% else %>
           <%= image_tag("empty_profile.jpeg", :size => '100x100', :class => "rounded-circle")%>
-        <% end %>
+        <% end %><br/>
         <%= link_to account.full_name, account_path(account)%>
         <% if account.company? %>
             <%= link_to 'Follow?', friendships_path(account: current_account, friend: account),

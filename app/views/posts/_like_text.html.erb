@@ -1,4 +1,4 @@
-<div class="text-left ml-3 mt-1 p-1">
+<div class="text-left ml-3 <%= (likes.count > 0)? "mt-1 p-1": "" %>">
 <% likes.each.with_index do |like, index| %> 
   <% if likes.size == 1%>
     <strong><%=  link_to like.account.full_name, account_path(like.account) %> </strong>

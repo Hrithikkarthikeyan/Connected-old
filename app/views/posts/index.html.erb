@@ -1,4 +1,4 @@
-
+<div class="row">
 <div class="container-fluid col-8">
   <% @posts.each do |post| %>
   <% if current_account == post.account || Friendship.where(account_id: current_account.id, friend_id: post.account_id).present? || Friendship.where(account_id: post.account_id, friend_id: current_account.id).present? || current_account.company?%>
@@ -12,4 +12,5 @@
       <% end %>
     <% end %>
   <% end %>
+</div>
 </div>

@@ -22,8 +22,8 @@ function toggleComment(post_id){
 <div class="row justify-content-md-center">
   <div class="col-8 mt-4">
     <div class="card text-center shadow mb-5 bg-white rounded">
-      <div class="card-header font-italic">
-        <div class="bg-white p-2">
+      <div class="bg-white card-header font-italic">
+        <div class="bg-white">
             <div class="d-flex flex-row user-info">
             <% if post.account.image.present? %>
               <%= image_tag(post.account.image.variant(resize_to_fill: [40, 40]), class: "rounded-circle") %>
@@ -48,7 +48,7 @@ function toggleComment(post_id){
          <div class="mt-1">
          <% if post.images.count == 1 %>
           <%= image_tag post.images.first.variant(resize: "450x450") %>
-          <% else %>
+          <% elsif post.images.count > 1 %>
           <div id="carouselExampleControls-<%= post.id.to_s %>" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
           <% post.images.each do |photo| %>

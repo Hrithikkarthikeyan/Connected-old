@@ -9,7 +9,7 @@
 <% if c == 0 %>
 <h1> You have no Connection request </h1>
 <% else %>
-<h1>My Requests</h1>
+<h1>My Requests</h1><br/>
 <div class="row">
   <div class="col-9">  
     <table class="table table-bordered table-hover">
@@ -23,9 +23,8 @@
         <% @requests.each do |request| %>
           <% if current_account == Account.find(request.friend_id) && request.status == 0 %>
             <tr>
-              <td><%= Account.find(request.account_id).full_name %></td>
-              <td><%= link_to 'View Profile', account_path(request),
-                                            class: 'btn btn-sm btn-warning' %>
+              <td><%= link_to Account.find(request.account_id).full_name, account_path(request.account) %></td>
+              <td>
               <%= link_to 'Accept', friendships_path(account: request.account, friend: request.friend), method: :post,
                                             class: 'btn btn-sm btn-success' %>
               <%= link_to 'Reject', request_path(request), method: :delete, data: {confirm: 'Are you sure?'},
